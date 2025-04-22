@@ -1,6 +1,7 @@
 import { useAxios } from "@/hooks/useAxios";
 import { IArticle } from "@/types/article";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { AxiosError } from "axios";
 
 // 获取文章列表
@@ -47,16 +48,16 @@ export const useDelArticle = () => {
 export const useAddArticle = () => {
   const {http} = useAxios();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
-    mutationFn: (article: IArticle) => {
-      return new Promise((resolve) => {
-        setTimeout(async () => {
-           return resolve (await http.post('/articles', article));
-        }, 1000);
-      })
+    mutationFn: async (article: IArticle) => {
+        return await http.post('/articles', article);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['articles']}); // 重新获取文章列表
+      // 跳转到文章列表页
+      navigate({to: '/'})
+      // 刷新文章列表
+      queryClient.invalidateQueries({queryKey: ['articles']}); 
     }
   })
 }
