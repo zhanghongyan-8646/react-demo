@@ -25,11 +25,21 @@ export const ArticleItem:FC<{className?:string, state?: boolean,article: IArticl
         </Link>
         <div className='text-sm text-gray-500'>{article.content}</div>
       </div>
-      <DelArticleButton article={article} />
+      <div className="flex items-center gap-2 mr-3">
+        <DelArticleButton article={article} />
+        <Link to ='/front/edit/$id' params={{id: article.id}}>
+          <Button type="primary" size='small'>编辑</Button>
+        </Link>
+      </div>
+      
     </div>
   )
 }
 
+// 编辑文章按钮
+
+
+// 删除文章按钮
 interface DelArticleButtonProps {
   article: IArticle;
 }
@@ -45,7 +55,7 @@ function DelArticleButton ({article}: DelArticleButtonProps) {
   // delArticle.isIdle 表示当前请求是否处于空闲状态，只有在空闲状态下才可以触发删除操作, 防止重复点击
   return <AlertDialog>
     <AlertDialogTrigger asChild>
-      <Button type="primary" size='small' className='mr-6' disabled={!delArticle.isIdle}>删除</Button>
+      <Button type="primary" size='small' disabled={!delArticle.isIdle}>删除</Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>

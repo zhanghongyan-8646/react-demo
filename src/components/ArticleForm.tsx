@@ -1,24 +1,33 @@
 import { Button, Card } from 'antd'
 
-import { useAddArticle } from '@/service/article'
+import { useAddArticle, useUpdateArticle } from '@/service/article'
 import { IArticle } from '@/types/article'
 import { useForm } from '@tanstack/react-form'
 import classNames from 'classnames'
-import { Random } from 'mockjs'
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { ValidateErrors } from './ValidateErrors'
-const ArticleForm = () => {
-  const mutation = useAddArticle();
+import { z } from 'zod'
+interface IArticleFormProps {
+  title: string;
+  data: IArticle | null;
+}
+
+const articleSchema = z.object({
+  title: z.string().min(1, {message: '标题不能为空'}),
+  preview: z.string().min(1, {message: '预览不能为空'}),
+  content: z.string().min(1, {message: '文章内容不能为空'}),
+})
+export const ArticleForm = ({title, data}: IArticleFormProps) => {
+  const addMutation = useAddArticle()
+  const updateMutation = useUpdateArticle()
   const form = useForm({
-    defaultValues: {
-      title: Random.csentence(5, 10),
-      content: Random.cparagraph(),  
-      preview: ''
-    },
+    defaultValues: data,
+    validators: articleSchema,
     onSubmit: async ({value}) => {
+      const mutation = data?.id ? updateMutation : addMutation;
       mutation.mutate(value as IArticle);
      
     }
@@ -32,15 +41,11 @@ const ArticleForm = () => {
     }}>
       <Card>  
         <CardHeader>
-          <CardTitle>发表文章</CardTitle>
+          <CardTitle>{title}</CardTitle>
           <CardDescription>请发表正能量的内容</CardDescription>
         </CardHeader>
         <CardContent>
-          <form.Field name="title" validators={{
-            onChange: ({value})=>{
-              return value.length > 0 ? undefined : '标题不能为空!'
-          }
-        }} children = {(field) => {
+          <form.Field name="title" children = {(field) => {
             return (
               <div>
                 <Label htmlFor="email">标题</Label>
@@ -52,11 +57,7 @@ const ArticleForm = () => {
             )
           }} />
 
-          <form.Field name= "preview" validators={{
-            onChange: ({value})=>{
-              return value ? undefined : '请选择图片!'
-            }
-          }} children = {(field) => {
+          <form.Field name= "preview" children = {(field) => {
             return (
               <div className='mt-4'>
                 <Label htmlFor="email">预览</Label>
@@ -79,11 +80,7 @@ const ArticleForm = () => {
             )
           }} />
 
-          <form.Field name="content" validators = {{
-            onChange: ({value})=>{
-              return value.length < 10 ? '内容不能少于10个字符!' : undefined
-            }
-          }} children = {(field) => {
+          <form.Field name="content" children = {(field) => {
             return (
               <div className='mt-4'>
                 <Label htmlFor="email">文章内容</Label>
@@ -104,5 +101,3 @@ const ArticleForm = () => {
     </form>
   )
 }
-
-export default ArticleForm

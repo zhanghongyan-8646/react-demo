@@ -61,3 +61,21 @@ export const useAddArticle = () => {
     }
   })
 }
+
+// 修改文章
+export const useUpdateArticle = () => {
+  const {http} = useAxios();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (article: IArticle) => {
+        return await http.put(`/articles/${article.id}`, article);
+    },
+    onSuccess: () => {
+      // 跳转到文章列表页
+      navigate({to: '/'})
+      // 刷新文章列表
+      queryClient.invalidateQueries({queryKey: ['articles']}); 
+    }
+  })
+}
