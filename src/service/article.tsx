@@ -42,3 +42,21 @@ export const useDelArticle = () => {
     }
   })
 }
+
+// 新增文章
+export const useAddArticle = () => {
+  const {http} = useAxios();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (article: IArticle) => {
+      return new Promise((resolve) => {
+        setTimeout(async () => {
+           return resolve (await http.post('/articles', article));
+        }, 1000);
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['articles']}); // 重新获取文章列表
+    }
+  })
+}

@@ -45,7 +45,7 @@ function DelArticleButton ({article}: DelArticleButtonProps) {
   // delArticle.isIdle 表示当前请求是否处于空闲状态，只有在空闲状态下才可以触发删除操作, 防止重复点击
   return <AlertDialog>
     <AlertDialogTrigger asChild>
-      <Button type="primary" size='small' className='mr-6' disabled={delArticle.isIdle}>删除</Button>
+      <Button type="primary" size='small' className='mr-6' disabled={!delArticle.isIdle}>删除</Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>
