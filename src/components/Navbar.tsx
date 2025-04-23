@@ -8,6 +8,8 @@ const Navbar = () => {
             <Diamonds theme="outline" size="24" />
             <Link to="/" className='uppercase'>  xiaogenban.com </Link>
           </div>
+          <Link to="/feature" className='ml-4 text-blue-500 hover:text-blue-700'>React特性</Link>
+          <Link to='/front' className='ml-4 text-blue-500 hover:text-blue-700'>我的博客</Link>
           <Link to="/front/live" className='ml-4 text-blue-500 hover:text-blue-700'>晚上八点直播</Link>
         </div> 
      </div>

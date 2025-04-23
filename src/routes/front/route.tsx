@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/front')({
@@ -10,7 +9,6 @@ export const Route = createFileRoute('/front')({
 
 function RouteComponent() {
   return <main className="container m-auto">
-    <Navbar />
     <Outlet />
   </main>
 }

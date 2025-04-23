@@ -4,28 +4,30 @@ import { useAddArticle, useUpdateArticle } from '@/service/article'
 import { IArticle } from '@/types/article'
 import { useForm } from '@tanstack/react-form'
 import classNames from 'classnames'
+import { z } from 'zod'
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { ValidateErrors } from './ValidateErrors'
-import { z } from 'zod'
 interface IArticleFormProps {
   title: string;
   data: IArticle | null;
 }
 
 const articleSchema = z.object({
-  title: z.string().min(1, {message: '标题不能为空'}),
-  preview: z.string().min(1, {message: '预览不能为空'}),
-  content: z.string().min(1, {message: '文章内容不能为空'}),
+  title: z.string().min(1, '标题不能为空'),
+  preview: z.string().min(1,'预览不能为空'),
+  content: z.string().min(1, '文章内容不能为空'),
 })
 export const ArticleForm = ({title, data}: IArticleFormProps) => {
   const addMutation = useAddArticle()
   const updateMutation = useUpdateArticle()
   const form = useForm({
     defaultValues: data,
-    validators: articleSchema,
+    validators: {
+      onChange: articleSchema,
+    },
     onSubmit: async ({value}) => {
       const mutation = data?.id ? updateMutation : addMutation;
       mutation.mutate(value as IArticle);
