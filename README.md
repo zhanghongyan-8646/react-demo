@@ -105,3 +105,21 @@ npm install -g json-server
 ```bash
 json-server --watch db.json --port 3001
 ```
+
+## 安装axios
+```bash
+npm install axios
+```
+
+## 安装three.js
+```bash
+npm install three
+```
+## 安装react-three-fiber
+```bash
+npm install react-three-fiber
+
+## 安装Gui工具
+```bash
+npm install dat.gui
+```

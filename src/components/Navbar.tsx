@@ -11,6 +11,7 @@ const Navbar = () => {
           <Link to="/feature" className='ml-4 text-blue-500 hover:text-blue-700'>React特性</Link>
           <Link to='/front' className='ml-4 text-blue-500 hover:text-blue-700'>我的博客</Link>
           <Link to="/front/live" className='ml-4 text-blue-500 hover:text-blue-700'>晚上八点直播</Link>
+          <Link to='/3d' className='ml-4 text-blue-500 hover:text-blue-700'>我的3D</Link>
         </div> 
      </div>
 }
